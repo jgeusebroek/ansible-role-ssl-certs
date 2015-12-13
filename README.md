@@ -33,13 +33,13 @@ None
 
 	# This is where the certificates will be stored,
 	# every certificate will be in it's own subdirectory.
-	ssl_certs_path: "/etc/ssl_private"
+	ssl_certs_path: "/etc/ssl/private"
 
 	# Optionally generate a 2048 bit Diffie-Hellman RSA key
 	ssl_dhparam_create: True
 
-	# A dictionary of selfsigned certificates to create. 
-	# *Note the optional owner and group values.* 
+	# A dictionary of selfsigned certificates to create.
+	# Note the optional owner and group values.
 	ssl_self_signed_certs:
 	  "localhost":
 	    common_name: '{{ ansible_fqdn }}'

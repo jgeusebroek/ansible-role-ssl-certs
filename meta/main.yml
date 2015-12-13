@@ -10,5 +10,11 @@ galaxy_info:
    - name: GenericLinux
      versions:
      - all
+   - name: GenericUNIX
+     versions:
+     - all
+   - name: GenericBSD
+     versions:
+     - all
   categories:
     - system

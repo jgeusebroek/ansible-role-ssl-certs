@@ -1,5 +1,5 @@
 ---
-ssl_certs_path: "/etc/ssl_private"
+ssl_certs_path: "/etc/ssl/private"
 ssl_certs_path_owner: "root"
 ssl_certs_path_group: "root"
 ssl_certs_path_mode: "0700"
