@@ -1,0 +1,25 @@
+---
+ssl_certs_path: "/etc/ssl_private"
+ssl_certs_path_owner: "root"
+ssl_certs_path_group: "root"
+ssl_certs_path_mode: "0700"
+
+ssl_certs_owner: "root"
+ssl_certs_group: "root"
+ssl_certs_mode: "0600"
+
+ssl_certs_country: "NL"
+ssl_certs_locality: "Amsterdam"
+ssl_certs_organization: ""
+ssl_certs_state: ""
+ssl_certs_days: "1095"
+ssl_certs_fields: "/C={{ ssl_certs_country }}/ST={{ ssl_certs_state }}/L={{ ssl_certs_locality }}/O={{ ssl_certs_organization }}/CN="
+
+ssl_dhparam_create: True
+ssl_dhparam_2048: "{{ ssl_certs_path }}/dhparam_2048.pem"
+
+ssl_certs_generate_self_signed: True
+ssl_certs_key_size: "2048"
+
+ssl_self_signed_certs: {}
+ssl_trusted_certs: {}

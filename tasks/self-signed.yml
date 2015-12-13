@@ -1,0 +1,35 @@
+---
+- name: Create self-signed certificate directories
+  file:
+    path: '{{ ssl_certs_path }}/{{ item.value.common_name }}'
+    state: directory
+    owner: '{{ item.value.owner if item.value.owner is defined else ssl_certs_path_owner }}'
+    group: '{{ item.value.group if item.value.group is defined else ssl_certs_path_group }}'
+    mode: '{{ item.value.mode if item.value.mode is defined else ssl_certs_path_mode }}'
+  with_dict: '{{ ssl_self_signed_certs }}'
+
+- name: Generate self-signed RSA keys
+  command: openssl genrsa -out {{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.key {{ ssl_certs_key_size }}
+  args:
+    creates: '{{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.key'
+  with_dict: '{{ ssl_self_signed_certs }}'
+
+- name: Generate self-signed CSRs
+  command: >
+    openssl req -new -subj '{{ ssl_certs_fields }}{{ item.value.common_name }}'
+    -key {{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.key
+    -out {{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.csr
+  args:
+    creates: '{{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.csr'
+  with_dict: '{{ ssl_self_signed_certs }}'
+
+- name: Generate self-signed SSL certificates
+  command: >
+    openssl req -nodes -x509 -days {{ ssl_certs_days }}
+    -in {{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.csr
+    -key {{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.key
+    -out {{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.pem
+    -extensions v3_ca
+  args:
+    creates: '{{ ssl_certs_path }}/{{ item.value.common_name }}/{{ item.value.common_name }}.pem'
+  with_dict: '{{ ssl_self_signed_certs }}'

@@ -1,0 +1,30 @@
+---
+- name: Create trusted certificate directories
+  file:
+    path: '{{ ssl_certs_path }}/{{ item.key }}'
+    state: directory
+    owner: '{{ item.value.owner if item.value.owner is defined else ssl_certs_path_owner }}'
+    group: '{{ item.value.group if item.value.group is defined else ssl_certs_path_group }}'
+    mode: '{{ item.value.mode if item.value.mode is defined else ssl_certs_path_mode }}'
+  no_log: True
+  with_dict: '{{ ssl_trusted_certs }}'
+
+- name: Copy trusted certificate PEMs
+  copy:
+    content: "{{ item.value.pem }}"
+    dest: '{{ ssl_certs_path }}/{{ item.key }}/{{ item.key }}.pem'
+    owner: '{{ item.value.owner if item.value.owner is defined else ssl_certs_owner }}'
+    group: '{{ item.value.group if item.value.group is defined else ssl_certs_group }}'
+    mode: '{{ item.value.mode if item.value.mode is defined else ssl_certs_mode }}'
+  no_log: True
+  with_dict: '{{ ssl_trusted_certs }}'
+
+- name: Copy trusted certificate keys
+  copy:
+    content: "{{ item.value.key }}"
+    dest: '{{ ssl_certs_path }}/{{ item.key }}/{{ item.key }}.key'
+    owner: '{{ item.value.owner if item.value.owner is defined else ssl_certs_owner }}'
+    group: '{{ item.value.group if item.value.group is defined else ssl_certs_group }}'
+    mode: '{{ item.value.mode if item.value.mode is defined else ssl_certs_mode }}'
+  no_log: True
+  with_dict: '{{ ssl_trusted_certs }}'

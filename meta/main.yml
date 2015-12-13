@@ -1,0 +1,14 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Jeroen Geusebroek
+  description: Installs selfsigned or trusted SSL certificates
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.2
+  platforms:
+   - name: GenericLinux
+     versions:
+     - all
+  categories:
+    - system

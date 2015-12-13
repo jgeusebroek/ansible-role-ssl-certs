@@ -1,0 +1,19 @@
+---
+- name: Ensure private ssl folder exist
+  file:
+    path: '{{ ssl_certs_path }}'
+    state: directory
+    owner: "{{ ssl_certs_path_owner }}"
+    group: "{{ ssl_certs_path_group }}"
+    mode: "{{ ssl_certs_path_mode }}"
+
+- name: Create 2048 bit Diffie-Hellman RSA key
+  command: openssl dhparam -outform pem -out {{ ssl_dhparam_2048 }} 2048
+  args:
+    creates: '{{ ssl_dhparam_2048 }}'
+  when: ssl_dhparam_create == True
+
+- include: self-signed.yml
+  when: ssl_certs_generate_self_signed == True
+
+- include: trusted.yml
