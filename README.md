@@ -49,9 +49,10 @@ None
 	    group: 'somegroup'	# optional
 	    mode: '0644'		# optional
 
+**IMPORTANT**: Don't store certificates/keys in plain text, use [Ansible Vault](http://docs.ansible.com/ansible/playbooks_vault.html) for security.
+
 	# A dictionary of trusted certificates to copy.
-	# **IMPORTANT**: Don't store certificates/keys in plain text, use [Ansible Vault](http://docs.ansible.com/ansible/playbooks_vault.html) for security.
-		ssl_trusted_certs:
+	ssl_trusted_certs:
 	  "somehostname.com":
 	    key: |
 	      -----BEGIN RSA PRIVATE KEY-----
